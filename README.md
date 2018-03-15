@@ -9,5 +9,5 @@ Algorithm to optimize the justification of a text
 
 ## Problem
 
-Justification of a text by limiting the spaces at the end of each line
+Justification of a text by equalizing the spaces at the end of each line
 Penalty is the sum of the squares of spaces at the end of each line.
