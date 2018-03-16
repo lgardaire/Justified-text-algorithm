@@ -17,6 +17,6 @@ for i in range(len(lines) - 1):
         break
     count += (M - len(lines[i])) ** 2
 if wrong_line == -1:
-    print(count)
+    print("Penalty : "+str(count))
 else:
-    print("Ligne "+str(wrong_line)+" trop longue : "+str(len(lines[wrong_line]))+" > "+str(M))
+    print("Fail : Ligne "+str(wrong_line)+" trop longue : "+str(len(lines[wrong_line]))+" > "+str(M))
