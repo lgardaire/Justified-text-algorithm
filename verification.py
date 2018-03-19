@@ -1,12 +1,12 @@
 M = 80
-text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer semper
-porta molestie. Vivamus nisl diam, malesuada id ligula sed, facilisis
-viverra tortor. Nunc dolor ante, consequat eu porttitor id, malesuada at
-eros. Mauris vehicula velit ac nibh semper tristique. Mauris lorem eros,
-condimentum a dolor et, maximus euismod ex. Sed eget odio ultrices, suscipit
-elit eget, vehicula mauris. Ut eget risus ut nibh tincidunt pharetra.
-Donec euismod nibh non pulvinar sagittis. Donec sodales id turpis ac
-pulvinar. Vivamus vel eleifend risus. Donec fringilla pharetra tempor."""
+text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer semper porta
+molestie. Vivamus nisl diam, malesuada id ligula sed, facilisis viverra tortor.
+Nunc dolor ante, consequat eu porttitor id, malesuada at eros. Mauris vehicula
+velit ac nibh semper tristique. Mauris lorem eros, condimentum a dolor et,
+maximus euismod ex. Sed eget odio ultrices, suscipit elit eget, vehicula mauris.
+Ut eget risus ut nibh tincidunt pharetra. Donec euismod nibh non pulvinar
+sagittis. Donec sodales id turpis ac pulvinar. Vivamus vel eleifend risus. Donec
+fringilla pharetra tempor."""
 
 lines = text.split("\n")
 wrong_line = -1
