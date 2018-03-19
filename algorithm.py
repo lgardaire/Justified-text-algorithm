@@ -114,10 +114,7 @@ def run_algorithm_to_optimize(filename, start, end, algo):
 
 
 if __name__ == '__main__':
-    start = time.time()
-    run_algorithm_to_optimize("HP.txt", 20, 120, justification)
-    end = time.time()
-    print(end - start)
+
     start = time.time()
     run_algorithm_to_optimize("HP.txt", 20, 120, optijustification)
     end = time.time()
