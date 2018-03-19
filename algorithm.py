@@ -1,75 +1,124 @@
-def justification(words, width):
-    words_count = len(words)
-    matrix = [[0] * words_count for _ in range(words_count)]
-    for i in range(words_count):
+import time
+
+
+def optijustification(words, width):
+    word_count = len(words)
+    matrix = [[0] * word_count for _ in range(word_count)]
+    for i in range(word_count):
         matrix[i][i] = width - len(words[i])
-        for j in range(i + 1, words_count):
+        for j in range(i + 1, word_count):
+            if j - i + 1 > width / 2:
+                break
             matrix[i][j] = matrix[i][j - 1] - len(words[j]) - 1
-    minima = [0] + [10 ** 20] * words_count
-    breaks = [0] * words_count
-    for j in range(words_count):
+    minimum = [0] + [10 ** 20] * word_count
+    breaks = [0] * word_count
+    last_line_index = word_count
+    for j in range(word_count):
         i = j
-        while i >= 0:
+        while j - i + 1 <= width / 2:
             if matrix[i][j] < 0:
-                cost = 10 ** 10
+                cost = 10 ** 20
+            elif j == word_count - 1:
+                last_line_index -= 1
+                cost = minimum[i] + matrix[i][j] ** 2
             else:
-                cost = minima[i] + matrix[i][j] ** 2
-            if minima[j + 1] > cost:
-                minima[j + 1] = cost
+                cost = minimum[i] + matrix[i][j] ** 2
+            if minimum[j + 1] > cost:
+                minimum[j + 1] = cost
                 breaks[j] = i
             i -= 1
-    lines = []
-    j = words_count
+    mini = 10 ** 20
+    index = 0
+    for i in range(last_line_index, word_count):
+        if minimum[i] < mini:
+            index = i
+            mini = minimum[i]
+    j = index
+    lines = [' '.join(words[j:word_count])]
     while j > 0:
         i = breaks[j - 1]
         lines.append(' '.join(words[i:j]))
         j = i
     lines.reverse()
-    return lines
+    return lines, minimum[index]
 
 
-def run_algorithm(paragraph, M):
-    penalties = dict()
-    last_line = []
+def justification(words, width):
+    word_count = len(words)
+    matrix = [[0] * word_count for _ in range(word_count)]
+    for i in range(word_count):
+        matrix[i][i] = width - len(words[i])
+        for j in range(i + 1, word_count):
+            matrix[i][j] = matrix[i][j - 1] - len(words[j]) - 1
+    minimum = [0] + [10 ** 20] * word_count
+    breaks = [0] * word_count
+    last_line_index = word_count
+    for j in range(word_count):
+        i = j
+        while i >= 0:
+            if matrix[i][j] < 0:
+                cost = 10 ** 20
+            elif j == word_count - 1:
+                last_line_index -= 1
+                cost = minimum[i] + matrix[i][j] ** 2
+            else:
+                cost = minimum[i] + matrix[i][j] ** 2
+            if minimum[j + 1] > cost:
+                minimum[j + 1] = cost
+                breaks[j] = i
+            i -= 1
+    mini = 10 ** 20
+    index = 0
+    for i in range(last_line_index, word_count):
+        if minimum[i] < mini:
+            index = i
+            mini = minimum[i]
+    j = index
+    lines = [' '.join(words[j:word_count])]
+    while j > 0:
+        i = breaks[j - 1]
+        lines.append(' '.join(words[i:j]))
+        j = i
+    lines.reverse()
+    return lines, minimum[index]
+
+
+def run_algorithm(paragraph, M, algo):
     words = paragraph.split()
-    while len(" ".join(last_line)) <= M:
-        lines = justification(words, M)
-        penalty = sum([(M - len(line)) ** 2 for line in lines])
-        penalties[penalty] = [lines, last_line.copy()]
-        last_line.insert(0, words[len(words) - 1])
-        words = words[0:len(words) - 1]
-    best = min(penalties)
-    justified_text = penalties[best][0]
-    justified_text.append(" ".join(penalties[best][1]))
-
+    justified_text, best = algo(words, M)
     return "\n".join(justified_text), best
 
 
 def prepare_paragraph(filename):
-    file = open(filename, 'r', -1, "utf-8")
+    file = open(filename, 'r', encoding="utf-8")
     lines = file.readlines()
     file.close()
-    for i in range(len(lines) - 1):
-        lines[i] = lines[i][:len(lines[i]) - 1]
-    return " ".join(lines)
+    return " ".join([i.strip("\n") for i in lines])
 
 
-def run_algorithm_once(filename, M):
-    text, penalty = run_algorithm(prepare_paragraph(filename), M)
-    print(text)
-    print("Penalty : " + str(penalty))
+# def run_algorithm_once(filename, M,algo):
+#     text, penalty = run_algorithm(prepare_paragraph(filename), M)
+#     print(text)
+#     print("Penalty : %d" % penalty)
 
 
-def run_algorithm_to_optimize(filename, start, end):
+def run_algorithm_to_optimize(filename, start, end, algo):
     paragraph = prepare_paragraph(filename)
-    results = dict()
+    results = {}
     for M in range(start, end + 1):
-        text, penalty = run_algorithm(paragraph, M)
+        text, penalty = run_algorithm(paragraph, M, algo)
+        # print(text)
         results[penalty] = [text, M]
     print(results[min(results)][0])
-    print("Penalty minimum is : " + str(min(results)) + " for M = " + str(results[min(results)][1]))
+    print("Penalty minimum is : %d  for M = %d" % (min(results), results[min(results)][1]))
 
 
 if __name__ == '__main__':
-    run_algorithm_to_optimize("decl.txt", 75, 81)
-    # run_algorithm_once("decl.txt", 80)
+    start = time.time()
+    run_algorithm_to_optimize("HP.txt", 20, 120, justification)
+    end = time.time()
+    print(end - start)
+    start = time.time()
+    run_algorithm_to_optimize("HP.txt", 20, 120, optijustification)
+    end = time.time()
+    print(end - start)
