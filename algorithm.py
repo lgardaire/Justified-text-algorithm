@@ -3,44 +3,33 @@ import time
 
 def optijustification(words, width):
     word_count = len(words)
-    matrix = [[0] * word_count for _ in range(word_count)]
-    for i in range(word_count):
-        matrix[i][i] = width - len(words[i])
-        for j in range(i + 1, word_count):
-            if j - i + 1 > width / 2:
-                break
-            matrix[i][j] = matrix[i][j - 1] - len(words[j]) - 1
     minimum = [0] + [10 ** 20] * word_count
     breaks = [0] * word_count
-    last_line_index = word_count
+    words_length = [len(i) for i in words]
     for j in range(word_count):
         i = j
-        while j - i + 1 <= width / 2 and i >= 0:
-            if matrix[i][j] < 0:
-                cost = 10 ** 20
-            elif j == word_count - 1:
-                last_line_index -= 1
-                cost = minimum[i] + matrix[i][j] ** 2
+        while line_length(i, j, words_length) <= width and i >= 0:
+            if j == word_count - 1:
+                cost = minimum[i]
             else:
-                cost = minimum[i] + matrix[i][j] ** 2
+                cost = minimum[i] + (width - line_length(i, j, words_length)) ** 2
             if minimum[j + 1] > cost:
                 minimum[j + 1] = cost
                 breaks[j] = i
             i -= 1
-    mini = 10 ** 20
-    index = 0
-    for i in range(last_line_index, word_count):
-        if minimum[i] < mini:
-            index = i
-            mini = minimum[i]
-    j = index
+
+    j = word_count
     lines = [' '.join(words[j:word_count])]
     while j > 0:
         i = breaks[j - 1]
         lines.append(' '.join(words[i:j]))
         j = i
     lines.reverse()
-    return lines, minimum[index]
+    return lines, minimum[-1]
+
+
+def line_length(i, j, words_length):
+    return sum(words_length[i:j + 1]) + j - i
 
 
 def run_algorithm(text, M):
@@ -73,7 +62,4 @@ def run_algorithm_to_optimize(filename, start, end):
 
 
 if __name__ == '__main__':
-    start = time.time()
-    run_algorithm_to_optimize("decl.txt", 70, 120)
-    end = time.time()
-    print(end - start)
+    run_algorithm_to_optimize("HP.txt", 20, 120)
