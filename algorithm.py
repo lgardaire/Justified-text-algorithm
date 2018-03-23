@@ -18,7 +18,7 @@ def justification(words, width):
                 breaks[j] = i
             i -= 1
     j = word_count
-    lines = [' '.join(words[j:word_count])]
+    lines = []
     while j > 0:
         i = breaks[j - 1]
         lines.append(' '.join(words[i:j]))
@@ -61,4 +61,4 @@ def run_algorithm_to_optimize(filename, start, end):
 
 
 if __name__ == '__main__':
-    run_algorithm_to_optimize("HP.txt", 20, 120)
+    run_algorithm_to_optimize("decl.txt", 20, 120)
