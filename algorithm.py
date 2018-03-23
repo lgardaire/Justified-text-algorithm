@@ -1,7 +1,7 @@
 import time
 
 
-def optijustification(words, width):
+def justification(words, width):
     word_count = len(words)
     minimum = [0] + [10 ** 20] * word_count
     breaks = [0] * word_count
@@ -17,7 +17,6 @@ def optijustification(words, width):
                 minimum[j + 1] = cost
                 breaks[j] = i
             i -= 1
-
     j = word_count
     lines = [' '.join(words[j:word_count])]
     while j > 0:
@@ -38,7 +37,7 @@ def run_algorithm(text, M):
     penalty = 0
     for paragraph in paragraphs:
         words = paragraph.split()
-        justified_text, best = optijustification(words, M)
+        justified_text, best = justification(words, M)
         result += "\n".join(justified_text) + "\n"
         penalty += best
     return result, penalty
