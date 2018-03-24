@@ -1,3 +1,7 @@
+MIN = 78
+MAX = 81
+FILENAME = "HP.txt"
+
 def justification(words, width):
     """
     Compute the justification on the text passed in parameter as an array
@@ -93,4 +97,4 @@ def run_algorithm_to_optimize(filename, start, end):
 
 
 if __name__ == '__main__':
-    run_algorithm_to_optimize("decl.txt", 75, 81)
+    run_algorithm_to_optimize(FILENAME, MIN, MAX)
