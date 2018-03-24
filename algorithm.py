@@ -2,6 +2,7 @@ MIN = 78
 MAX = 81
 FILENAME = "HP.txt"
 
+
 def justification(words, width):
     """
     Compute the justification on the text passed in parameter as an array
