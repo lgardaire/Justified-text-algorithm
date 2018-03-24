@@ -1,3 +1,9 @@
+"""
+Parameters for the algorithm
+    MIN : minimum of the maximum length of a line
+    MAX : maximum of the maximum length of a line
+    FILENAME : name of the file containing the text to justify
+"""
 MIN = 78
 MAX = 81
 FILENAME = "HP.txt"
