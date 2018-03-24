@@ -93,4 +93,4 @@ def run_algorithm_to_optimize(filename, start, end):
 
 
 if __name__ == '__main__':
-    run_algorithm_to_optimize("decl.txt", 20, 120)
+    run_algorithm_to_optimize("decl.txt", 75, 81)
